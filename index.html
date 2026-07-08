@@ -11,8 +11,8 @@
       <section class="hero">
         <div>
           <p class="eyebrow">Study Abroad Planner</p>
-          <h1>材料 Checklist</h1>
-          <p class="subtle">整理留学申请、签证、住宿、付款和行前材料，刷新页面后数据也会保留。</p>
+          <h1>留学材料助手</h1>
+          <p class="subtle">按时间线整理申请、签证、住宿、付款和行前材料，刷新页面后数据也会保留。</p>
         </div>
         <div class="progress-panel" aria-live="polite">
           <span id="progress-count">准备进度：0 / 0</span>
@@ -23,7 +23,8 @@
           <div class="stats-grid">
             <span>已完成 <strong id="done-count">0</strong></span>
             <span>已上传 <strong id="uploaded-count">0</strong></span>
-            <span>已确认 / 不适用 <strong id="confirmed-count">0 / 不适用 0</strong></span>
+            <span>已确认 <strong id="confirmed-count">0</strong></span>
+            <span>不适用 <strong id="not-applicable-count">0</strong></span>
           </div>
         </div>
       </section>
@@ -37,9 +38,10 @@
           <label class="sort-field">
             <span>排序</span>
             <select id="material-sort">
-              <option value="default">默认排序</option>
+              <option value="timeline" selected>按时间线</option>
               <option value="deadline">按截止日期</option>
               <option value="status">按状态</option>
+              <option value="default">默认排序</option>
             </select>
           </label>
         </div>
@@ -92,6 +94,11 @@
           <label>
             <span>分类</span>
             <select id="material-category" required></select>
+          </label>
+
+          <label>
+            <span>阶段</span>
+            <select id="material-stage"></select>
           </label>
 
           <label>

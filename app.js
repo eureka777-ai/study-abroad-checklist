@@ -4,6 +4,7 @@ const categories = ["全部", "申请材料", "学术材料", "语言材料", "�
 const statuses = ["未开始", "准备中", "已完成", "已上传", "已确认", "不适用"];
 const readyStatuses = ["已完成", "已上传", "已确认"];
 const requirementLevels = ["必需", "视情况需要", "可选"];
+const timelineStages = ["申请准备", "提交申请", "等待 Offer", "换 Unconditional", "CAS 与签证", "住宿与付款", "行前准备", "到校注册", "其他"];
 const guideSources = {
   govUkStudent: {
     sourceName: "GOV.UK Student visa",
@@ -32,19 +33,19 @@ const guideSources = {
 };
 
 const defaultMaterials = [
-  { name: "护照", category: "签证材料", status: "未开始", deadline: "", note: "", howToGet: "向户籍地或居住地出入境管理部门申请或换发。", appliesTo: "几乎所有留学、签证和出入境场景都需要。" },
-  { name: "Conditional Offer", category: "申请材料", status: "未开始", deadline: "", note: "" },
-  { name: "Unconditional Offer", category: "申请材料", status: "未开始", deadline: "", note: "" },
-  { name: "CAS", category: "签证材料", status: "未开始", deadline: "", note: "", sourceName: "学校 / GOV.UK", sourceUrl: guideSources.govUkStudent.sourceUrl, howToGet: "通常在换成 Unconditional Offer、满足学校要求并确认入读后由学校发放。", appliesTo: "英国学生签证需要。CAS 信息需要和护照、课程、学费等信息一致。" },
-  { name: "毕业证", category: "学术材料", status: "未开始", deadline: "", note: "" },
-  { name: "学位证", category: "学术材料", status: "未开始", deadline: "", note: "" },
-  { name: "中英文成绩单", category: "学术材料", status: "未开始", deadline: "", note: "" },
-  { name: "雅思成绩单", category: "语言材料", status: "未开始", deadline: "", note: "" },
-  { name: "TB 肺结核检测证明", category: "签证材料", status: "未开始", deadline: "", note: "", ...guideSources.govUkTb, howToGet: "按 GOV.UK 要求预约 Home Office 认可诊所并完成检测。", appliesTo: "来自指定国家/地区、申请长期英国签证时通常需要；普通医院证明可能不被接受。" },
-  { name: "签证申请表", category: "签证材料", status: "未开始", deadline: "", note: "", ...guideSources.govUkStudentApply, howToGet: "通过对应国家/地区的官方签证申请入口在线填写。", appliesTo: "不同国家和签证类型使用不同表格；美国非移民签证使用 DS-160，英国学生签证不使用 DS-160。" },
-  { name: "IHS 付款证明", category: "付款材料", status: "未开始", deadline: "", note: "" },
-  { name: "住宿合同", category: "住宿材料", status: "未开始", deadline: "", note: "" },
-  { name: "学费付款证明", category: "付款材料", status: "未开始", deadline: "", note: "" },
+  { name: "护照", category: "签证材料", stage: "申请准备", status: "未开始", deadline: "", note: "", howToGet: "向户籍地或居住地出入境管理部门申请或换发。", appliesTo: "几乎所有留学、签证和出入境场景都需要。" },
+  { name: "毕业证", category: "学术材料", stage: "申请准备", status: "未开始", deadline: "", note: "" },
+  { name: "学位证", category: "学术材料", stage: "申请准备", status: "未开始", deadline: "", note: "" },
+  { name: "中英文成绩单", category: "学术材料", stage: "申请准备", status: "未开始", deadline: "", note: "" },
+  { name: "雅思成绩单", category: "语言材料", stage: "申请准备", status: "未开始", deadline: "", note: "" },
+  { name: "Conditional Offer", category: "申请材料", stage: "等待 Offer", status: "未开始", deadline: "", note: "" },
+  { name: "Unconditional Offer", category: "申请材料", stage: "换 Unconditional", status: "未开始", deadline: "", note: "" },
+  { name: "CAS", category: "签证材料", stage: "CAS 与签证", status: "未开始", deadline: "", note: "", sourceName: "学校 / GOV.UK", sourceUrl: guideSources.govUkStudent.sourceUrl, howToGet: "通常在换成 Unconditional Offer、满足学校要求并确认入读后由学校发放。", nextAction: "等待学校换成 Unconditional Offer 后发放 CAS。", appliesTo: "英国学生签证需要。CAS 信息需要和护照、课程、学费等信息一致。" },
+  { name: "TB 肺结核检测证明", category: "签证材料", stage: "CAS 与签证", status: "未开始", deadline: "", note: "", ...guideSources.govUkTb, howToGet: "按 GOV.UK 要求预约 Home Office 认可诊所并完成检测。", nextAction: "确认自己是否需要 TB 检测；如需要，预约官方认可诊所。", appliesTo: "来自指定国家/地区、申请长期英国签证时通常需要；普通医院证明可能不被接受。" },
+  { name: "签证申请表", category: "签证材料", stage: "CAS 与签证", status: "未开始", deadline: "", note: "", ...guideSources.govUkStudentApply, howToGet: "通过对应国家/地区的官方签证申请入口在线填写。", nextAction: "进入官方签证申请入口，确认签证类型后开始填写。", appliesTo: "不同国家和签证类型使用不同表格；美国非移民签证使用 DS-160，英国学生签证不使用 DS-160。" },
+  { name: "IHS 付款证明", category: "付款材料", stage: "CAS 与签证", status: "未开始", deadline: "", note: "" },
+  { name: "住宿合同", category: "住宿材料", stage: "住宿与付款", status: "未开始", deadline: "", note: "" },
+  { name: "学费付款证明", category: "付款材料", stage: "住宿与付款", status: "未开始", deadline: "", note: "" },
 ];
 
 const templates = [
@@ -403,7 +404,7 @@ const templates = [
 let materials = loadMaterials();
 let activeCategory = "全部";
 let searchText = "";
-let sortMode = "default";
+let sortMode = "timeline";
 let selectedTemplateId = templates[0]?.id || "";
 let templateCountryFilter = "全部";
 let templateTypeFilter = "全部";
@@ -428,6 +429,7 @@ const elements = {
   doneCount: document.querySelector("#done-count"),
   uploadedCount: document.querySelector("#uploaded-count"),
   confirmedCount: document.querySelector("#confirmed-count"),
+  notApplicableCount: document.querySelector("#not-applicable-count"),
   search: document.querySelector("#material-search"),
   sort: document.querySelector("#material-sort"),
   form: document.querySelector("#material-form"),
@@ -437,6 +439,7 @@ const elements = {
   id: document.querySelector("#material-id"),
   name: document.querySelector("#material-name"),
   category: document.querySelector("#material-category"),
+  stage: document.querySelector("#material-stage"),
   status: document.querySelector("#material-status"),
   requirementLevel: document.querySelector("#material-requirement-level"),
   deadline: document.querySelector("#material-deadline"),
@@ -491,6 +494,10 @@ function fillSelectOptions() {
   elements.category.innerHTML = categories
     .filter((category) => category !== "全部")
     .map((category) => `<option value="${category}">${category}</option>`)
+    .join("");
+
+  elements.stage.innerHTML = timelineStages
+    .map((stage) => `<option value="${stage}">${stage}</option>`)
     .join("");
 
   elements.status.innerHTML = statuses
@@ -622,11 +629,70 @@ function renderProgress() {
   elements.progressBar.style.width = `${percent}%`;
   elements.doneCount.textContent = done;
   elements.uploadedCount.textContent = uploaded;
-  elements.confirmedCount.textContent = `${confirmed} / 不适用 ${notApplicable}`;
+  elements.confirmedCount.textContent = confirmed;
+  elements.notApplicableCount.textContent = notApplicable;
 }
 
 function getRequirementLevel(material) {
   return material.requirementLevel || normalizeRequirementLevel(material.level || "必需");
+}
+
+function getMaterialStage(material) {
+  if (material.stage && timelineStages.includes(material.stage)) {
+    return material.stage;
+  }
+
+  const name = material.name.toLowerCase();
+
+  if (["个人陈述", "personal statement", "推荐信", "cv", "简历", "成绩单", "毕业证", "学位证", "雅思", "语言"].some((keyword) => name.includes(keyword))) {
+    return "申请准备";
+  }
+
+  if (["申请表", "offer 接受"].some((keyword) => name.includes(keyword))) {
+    return "提交申请";
+  }
+
+  if (name.includes("conditional offer")) {
+    return "等待 Offer";
+  }
+
+  if (name.includes("unconditional offer")) {
+    return "换 Unconditional";
+  }
+
+  if (["cas", "签证", "ihs", "tb", "atas", "ds-160", "资金证明", "肺结核"].some((keyword) => name.includes(keyword))) {
+    return "CAS 与签证";
+  }
+
+  if (["住宿", "学费", "押金", "付款", "房租"].some((keyword) => name.includes(keyword))) {
+    return "住宿与付款";
+  }
+
+  if (["机票", "保险", "接机", "电话卡", "行程", "酒店"].some((keyword) => name.includes(keyword))) {
+    return "行前准备";
+  }
+
+  return "其他";
+}
+
+function getStageIndex(material) {
+  return timelineStages.indexOf(getMaterialStage(material));
+}
+
+function inferTemplateStage(template, templateItem) {
+  if (template.type === "留学申请") {
+    return getMaterialStage(templateItem);
+  }
+
+  if (template.type.includes("学生签证") || template.type.includes("旅游签") || template.type.includes("商务签")) {
+    return "CAS 与签证";
+  }
+
+  if (template.type.includes("行前")) {
+    return "行前准备";
+  }
+
+  return getMaterialStage(templateItem);
 }
 
 function getVisibleMaterials() {
@@ -649,6 +715,10 @@ function getVisibleMaterials() {
 
 function sortMaterials(items) {
   const clonedItems = [...items];
+
+  if (sortMode === "timeline") {
+    return clonedItems.sort((a, b) => getStageIndex(a) - getStageIndex(b));
+  }
 
   if (sortMode === "deadline") {
     return clonedItems.sort((a, b) => {
@@ -708,34 +778,56 @@ function renderMaterials() {
     return;
   }
 
-  elements.list.innerHTML = visibleMaterials
-    .map((material) => {
-      const deadline = getDeadlineInfo(material.deadline);
-      const noteText = material.note ? material.note : "暂无备注";
-      const requirementLevel = getRequirementLevel(material);
-      const nextActionText = material.nextAction || material.howToGet || "暂未设置下一步";
+  if (sortMode === "timeline") {
+    elements.list.innerHTML = timelineStages
+      .map((stage) => {
+        const stageMaterials = visibleMaterials.filter((material) => getMaterialStage(material) === stage);
+        if (stageMaterials.length === 0) return "";
 
-      return `
-        <article class="material-card">
-          <div class="card-top">
-            <h3 class="material-name">${escapeHtml(material.name)}</h3>
-            <span class="pill status status-${material.status}">${material.status}</span>
-          </div>
-          <div class="meta">
-            <span class="pill">${material.category}</span>
-            <span class="pill requirement requirement-${requirementLevel}">${requirementLevel}</span>
-            <span class="pill deadline deadline-${deadline.level}">${deadline.text}</span>
-          </div>
-          <p class="next-action"><strong>下一步</strong>${escapeHtml(nextActionText)}</p>
-          <div class="card-actions">
-            <button class="text-button" type="button" data-action="details" data-id="${material.id}">查看详情</button>
-            <button class="text-button" type="button" data-action="edit" data-id="${material.id}">编辑</button>
-            <button class="danger-button" type="button" data-action="delete" data-id="${material.id}">删除</button>
-          </div>
-        </article>
-      `;
-    })
-    .join("");
+        return `
+          <section class="timeline-group">
+            <div class="timeline-heading">
+              <span></span>
+              <h3>${stage}</h3>
+              <small>${stageMaterials.length} 项</small>
+            </div>
+            <div class="timeline-items">
+              ${stageMaterials.map(renderMaterialCard).join("")}
+            </div>
+          </section>
+        `;
+      })
+      .join("");
+    return;
+  }
+
+  elements.list.innerHTML = visibleMaterials.map(renderMaterialCard).join("");
+}
+
+function renderMaterialCard(material) {
+  const deadline = getDeadlineInfo(material.deadline);
+  const requirementLevel = getRequirementLevel(material);
+  const nextActionText = material.nextAction || material.howToGet || "暂未设置下一步";
+
+  return `
+    <article class="material-card">
+      <div class="card-top">
+        <h3 class="material-name">${escapeHtml(material.name)}</h3>
+        <span class="pill status status-${material.status}">${material.status}</span>
+      </div>
+      <div class="meta">
+        <span class="pill">${material.category}</span>
+        <span class="pill requirement requirement-${requirementLevel}">${requirementLevel}</span>
+        <span class="pill deadline deadline-${deadline.level}">${deadline.text}</span>
+      </div>
+      <p class="next-action"><strong>下一步</strong>${escapeHtml(nextActionText)}</p>
+      <div class="card-actions">
+        <button class="text-button" type="button" data-action="details" data-id="${material.id}">查看详情</button>
+        <button class="text-button" type="button" data-action="edit" data-id="${material.id}">编辑</button>
+        <button class="danger-button" type="button" data-action="delete" data-id="${material.id}">删除</button>
+      </div>
+    </article>
+  `;
 }
 
 function render() {
@@ -748,6 +840,7 @@ function render() {
 function resetForm() {
   elements.form.reset();
   elements.id.value = "";
+  elements.stage.value = "申请准备";
   elements.status.value = "未开始";
   elements.requirementLevel.value = "必需";
   elements.formTitle.textContent = "添加新材料";
@@ -762,6 +855,7 @@ function handleFormSubmit(event) {
     id: elements.id.value || createId(),
     name: elements.name.value.trim(),
     category: elements.category.value,
+    stage: elements.stage.value,
     status: elements.status.value,
     requirementLevel: elements.requirementLevel.value,
     deadline: elements.deadline.value,
@@ -796,6 +890,7 @@ function startEdit(id) {
   elements.id.value = material.id;
   elements.name.value = material.name;
   elements.category.value = material.category;
+  elements.stage.value = getMaterialStage(material);
   elements.status.value = material.status;
   elements.requirementLevel.value = getRequirementLevel(material);
   elements.deadline.value = material.deadline;
@@ -840,6 +935,7 @@ function applyTemplate(templateId, selectedNames = null) {
         id: createId(),
         name: item.name,
         category: item.category,
+        stage: item.stage || inferTemplateStage(template, item),
         status: "未开始",
         requirementLevel: item.requirementLevel || normalizeRequirementLevel(item.level),
         deadline: "",
@@ -869,6 +965,7 @@ function enrichExistingMaterials(template, selectedItems) {
 
     const guide = {
       requirementLevel: material.requirementLevel || templateItem.requirementLevel || normalizeRequirementLevel(templateItem.level),
+      stage: material.stage || templateItem.stage || inferTemplateStage(template, templateItem),
       sourceName: material.sourceName || templateItem.sourceName || template.sourceName || "",
       sourceUrl: material.sourceUrl || templateItem.sourceUrl || template.sourceUrl || "",
       howToGet: material.howToGet || templateItem.howToGet || "",
@@ -923,6 +1020,7 @@ function showDetails(id) {
     ["状态", material.status],
     ["重要程度", getRequirementLevel(material)],
     ["分类", material.category],
+    ["阶段", getMaterialStage(material)],
     ["截止日期", material.deadline || "未设置"],
     ["下一步动作", material.nextAction || material.howToGet || "暂未填写"],
     ["来源", material.sourceName || "暂未填写"],
