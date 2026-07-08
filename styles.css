@@ -89,6 +89,7 @@ h2 {
 .progress-panel,
 .form-section,
 .list-section,
+.template-section,
 .toolbar {
   background: var(--surface);
   border: 1px solid var(--line);
@@ -193,6 +194,7 @@ h2 {
 }
 
 .form-section,
+.template-section,
 .list-section {
   padding: 20px;
   margin-bottom: 16px;
@@ -210,6 +212,57 @@ h2 {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 14px;
+}
+
+.section-note {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.template-message {
+  min-height: 22px;
+  color: var(--green);
+  font-size: 14px;
+  font-weight: 700;
+  text-align: right;
+}
+
+.template-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.template-button {
+  min-height: 82px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 14px;
+  text-align: left;
+}
+
+.template-button:hover {
+  border-color: rgba(37, 99, 235, 0.45);
+  background: #f8fbff;
+}
+
+.template-button strong,
+.template-button span {
+  display: block;
+}
+
+.template-button strong {
+  margin-bottom: 7px;
+  color: var(--text);
+  font-size: 16px;
+}
+
+.template-button span {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
 }
 
 label {
@@ -407,12 +460,17 @@ textarea:focus {
   .hero,
   .utility-row,
   .material-form,
-  .material-list {
+  .material-list,
+  .template-buttons {
     grid-template-columns: 1fr;
   }
 
   .note-field {
     grid-column: auto;
+  }
+
+  .template-message {
+    text-align: left;
   }
 }
 
