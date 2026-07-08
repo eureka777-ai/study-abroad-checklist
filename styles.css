@@ -11,6 +11,8 @@
   --blue: #1d4ed8;
   --amber: #b45309;
   --violet: #7c3aed;
+  --deep-green: #166534;
+  --yellow: #ca8a04;
   --gray: #4b5563;
   --danger: #dc2626;
   --shadow: 0 14px 36px rgba(31, 41, 55, 0.08);
@@ -127,9 +129,37 @@ h2 {
   transition: width 180ms ease;
 }
 
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.stats-grid span {
+  border-radius: 8px;
+  background: #f3f5f8;
+  padding: 8px;
+}
+
+.stats-grid strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--text);
+  font-size: 18px;
+}
+
 .toolbar {
   padding: 14px;
   margin-bottom: 16px;
+}
+
+.utility-row {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 14px;
+  margin-bottom: 14px;
 }
 
 .filter-buttons {
@@ -301,7 +331,7 @@ textarea:focus {
 }
 
 .status-准备中 {
-  background: var(--amber);
+  background: var(--blue);
 }
 
 .status-已完成 {
@@ -309,11 +339,31 @@ textarea:focus {
 }
 
 .status-已上传 {
-  background: var(--blue);
+  background: var(--violet);
 }
 
 .status-已确认 {
-  background: var(--violet);
+  background: var(--deep-green);
+}
+
+.deadline-overdue {
+  background: #fee2e2;
+  color: var(--danger);
+}
+
+.deadline-urgent {
+  background: #ffedd5;
+  color: var(--amber);
+}
+
+.deadline-soon {
+  background: #fef9c3;
+  color: var(--yellow);
+}
+
+.deadline-normal {
+  background: #eef4ff;
+  color: var(--primary);
 }
 
 .note {
@@ -355,6 +405,7 @@ textarea:focus {
   }
 
   .hero,
+  .utility-row,
   .material-form,
   .material-list {
     grid-template-columns: 1fr;

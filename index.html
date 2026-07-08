@@ -15,21 +15,40 @@
           <p class="subtle">整理申请、签证、住宿和付款材料，刷新页面后数据也会保留。</p>
         </div>
         <div class="progress-panel" aria-live="polite">
-          <span id="progress-count">0 / 0 已确认</span>
+          <span id="progress-count">准备进度：0 / 0</span>
           <strong id="progress-percent">0%</strong>
           <div class="progress-track" aria-hidden="true">
             <div id="progress-bar" class="progress-bar"></div>
           </div>
+          <div class="stats-grid">
+            <span>已完成 <strong id="done-count">0</strong></span>
+            <span>已上传 <strong id="uploaded-count">0</strong></span>
+            <span>已确认 <strong id="confirmed-count">0</strong></span>
+          </div>
         </div>
       </section>
 
-      <section class="toolbar" aria-label="分类筛选">
+      <section class="toolbar" aria-label="筛选和搜索">
+        <div class="utility-row">
+          <label class="search-field">
+            <span>搜索材料</span>
+            <input id="material-search" type="search" placeholder="搜索名称或备注，例如 CAS、UCL、签证" />
+          </label>
+          <label class="sort-field">
+            <span>排序</span>
+            <select id="material-sort">
+              <option value="default">默认排序</option>
+              <option value="deadline">按截止日期</option>
+              <option value="status">按状态</option>
+            </select>
+          </label>
+        </div>
         <div id="filter-buttons" class="filter-buttons"></div>
       </section>
 
       <section class="form-section">
         <div class="section-heading">
-          <h2 id="form-title">添加材料</h2>
+          <h2 id="form-title">添加新材料</h2>
           <button id="cancel-edit-btn" class="ghost hidden" type="button">取消编辑</button>
         </div>
 
@@ -61,13 +80,13 @@
             <textarea id="material-note" rows="3" placeholder="例如：等学校发 CAS"></textarea>
           </label>
 
-          <button class="primary" type="submit">保存材料</button>
+          <button id="submit-btn" class="primary" type="submit">添加材料</button>
         </form>
       </section>
 
       <section class="list-section">
         <div class="section-heading">
-          <h2>材料列表</h2>
+          <h2 id="list-title">材料列表 · 全部</h2>
           <span id="visible-count" class="count-pill">0 项</span>
         </div>
         <div id="material-list" class="material-list"></div>
