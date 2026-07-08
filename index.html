@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>留学材料 Checklist</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Study Abroad Planner</p>
+          <h1>留学材料 Checklist</h1>
+          <p class="subtle">整理申请、签证、住宿和付款材料，刷新页面后数据也会保留。</p>
+        </div>
+        <div class="progress-panel" aria-live="polite">
+          <span id="progress-count">0 / 0 已确认</span>
+          <strong id="progress-percent">0%</strong>
+          <div class="progress-track" aria-hidden="true">
+            <div id="progress-bar" class="progress-bar"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="toolbar" aria-label="分类筛选">
+        <div id="filter-buttons" class="filter-buttons"></div>
+      </section>
+
+      <section class="form-section">
+        <div class="section-heading">
+          <h2 id="form-title">添加材料</h2>
+          <button id="cancel-edit-btn" class="ghost hidden" type="button">取消编辑</button>
+        </div>
+
+        <form id="material-form" class="material-form">
+          <input type="hidden" id="material-id" />
+
+          <label>
+            <span>材料名称</span>
+            <input id="material-name" type="text" placeholder="例如：CAS" required />
+          </label>
+
+          <label>
+            <span>分类</span>
+            <select id="material-category" required></select>
+          </label>
+
+          <label>
+            <span>状态</span>
+            <select id="material-status"></select>
+          </label>
+
+          <label>
+            <span>截止日期</span>
+            <input id="material-deadline" type="date" />
+          </label>
+
+          <label class="note-field">
+            <span>备注</span>
+            <textarea id="material-note" rows="3" placeholder="例如：等学校发 CAS"></textarea>
+          </label>
+
+          <button class="primary" type="submit">保存材料</button>
+        </form>
+      </section>
+
+      <section class="list-section">
+        <div class="section-heading">
+          <h2>材料列表</h2>
+          <span id="visible-count" class="count-pill">0 项</span>
+        </div>
+        <div id="material-list" class="material-list"></div>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
