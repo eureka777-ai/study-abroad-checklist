@@ -22,102 +22,321 @@ const defaultMaterials = [
 
 const templates = [
   {
+    id: "uk-study-application-student",
+    country: "英国",
+    type: "留学申请",
+    audience: "学生",
     name: "英国留学申请",
-    description: "Offer、学术、语言成绩",
+    description: "学校申请常用材料，具体以院校要求为准",
+    sourceName: "院校要求为准",
+    sourceUrl: "",
     items: [
-      { name: "护照", category: "签证材料", note: "确保护照有效期覆盖申请和入境时间" },
-      { name: "个人陈述 Personal Statement", category: "申请材料", note: "" },
-      { name: "推荐信", category: "申请材料", note: "通常需要 1-2 封" },
-      { name: "CV / 简历", category: "申请材料", note: "" },
-      { name: "Conditional Offer", category: "申请材料", note: "" },
-      { name: "Unconditional Offer", category: "申请材料", note: "" },
-      { name: "Offer 接受确认", category: "申请材料", note: "" },
-      { name: "毕业证", category: "学术材料", note: "" },
-      { name: "学位证", category: "学术材料", note: "" },
-      { name: "中英文成绩单", category: "学术材料", note: "" },
-      { name: "雅思成绩单", category: "语言材料", note: "" },
-      { name: "押金付款证明", category: "付款材料", note: "如学校要求缴纳押金" },
+      item("护照", "签证材料", "确保护照有效期覆盖申请和入境时间"),
+      item("个人陈述 Personal Statement", "申请材料"),
+      item("推荐信", "申请材料", "多数院校需要 1-2 封"),
+      item("CV / 简历", "申请材料"),
+      item("Conditional Offer", "申请材料"),
+      item("Unconditional Offer", "申请材料"),
+      item("Offer 接受确认", "申请材料"),
+      item("毕业证", "学术材料"),
+      item("学位证", "学术材料"),
+      item("中英文成绩单", "学术材料"),
+      item("雅思 / 语言成绩单", "语言材料"),
+      item("押金付款证明", "付款材料", "如学校要求缴纳押金", "按情况"),
     ],
   },
   {
+    id: "uk-student-visa-student",
+    country: "英国",
+    type: "学生签证",
+    audience: "学生",
     name: "英国学生签证",
-    description: "CAS、IHS、资金、TB",
+    description: "CAS、资金证明、ATAS、TB 等",
+    sourceName: "GOV.UK Student visa",
+    sourceUrl: "https://www.gov.uk/student-visa/documents-you-must-provide",
     items: [
-      { name: "护照", category: "签证材料", note: "" },
-      { name: "CAS", category: "签证材料", note: "等学校发 CAS 后核对信息" },
-      { name: "签证申请表", category: "签证材料", note: "" },
-      { name: "IHS 付款证明", category: "付款材料", note: "" },
-      { name: "签证费付款证明", category: "付款材料", note: "" },
-      { name: "TB 肺结核检测证明", category: "签证材料", note: "" },
-      { name: "资金证明", category: "签证材料", note: "按签证要求准备存款证明或银行流水" },
-      { name: "银行流水 / 存款证明", category: "签证材料", note: "" },
-      { name: "签证预约确认信", category: "签证材料", note: "" },
-      { name: "ATAS 证明（如适用）", category: "签证材料", note: "理工科部分专业可能需要" },
-      { name: "BRP / eVisa 信息", category: "签证材料", note: "按最新签证流程确认" },
+      item("有效护照", "签证材料"),
+      item("CAS", "签证材料", "核对姓名、课程、学费、已付款金额等信息"),
+      item("签证申请表", "签证材料"),
+      item("IHS 付款证明", "付款材料"),
+      item("签证费付款证明", "付款材料"),
+      item("资金证明", "签证材料", "按 UKVI 资金要求准备"),
+      item("ATAS 证明", "签证材料", "部分专业需要", "按情况"),
+      item("TB 肺结核检测证明", "签证材料", "来自指定国家/地区时通常需要", "按情况"),
+      item("父母同意书", "签证材料", "18 岁以下申请人需要", "按情况"),
+      item("出生证明 / 亲属关系证明", "签证材料", "使用父母资金或未成年人申请时可能需要", "按情况"),
+      item("英文翻译件", "其他", "非英文/威尔士语文件通常需要翻译", "按情况"),
     ],
   },
   {
-    name: "申根旅游签",
-    description: "行程、酒店、保险、资金",
+    id: "uk-visitor-tourism-employed",
+    country: "英国",
+    type: "旅游签",
+    audience: "在职",
+    name: "英国旅游签 · 在职",
+    description: "Standard Visitor 旅游探访常用材料",
+    sourceName: "GOV.UK Standard Visitor",
+    sourceUrl: "https://www.gov.uk/standard-visitor",
     items: [
-      { name: "护照", category: "签证材料", note: "检查有效期和空白签证页" },
-      { name: "申根签证申请表", category: "签证材料", note: "" },
-      { name: "白底证件照", category: "签证材料", note: "" },
-      { name: "往返机票预订单", category: "其他", note: "" },
-      { name: "酒店预订单", category: "住宿材料", note: "" },
-      { name: "旅行行程单", category: "其他", note: "列出每天城市和住宿" },
-      { name: "旅行保险", category: "其他", note: "确认覆盖申根要求" },
-      { name: "银行流水 / 存款证明", category: "签证材料", note: "" },
-      { name: "在读证明 / 工作证明", category: "签证材料", note: "" },
-      { name: "户口本 / 身份证明", category: "签证材料", note: "按申请地要求准备" },
+      item("有效护照", "签证材料"),
+      item("在线签证申请表", "签证材料"),
+      item("签证费付款证明", "付款材料"),
+      item("行程计划", "其他"),
+      item("住宿信息", "住宿材料"),
+      item("资金证明 / 银行流水", "签证材料"),
+      item("在职证明", "签证材料"),
+      item("准假证明", "签证材料"),
+      item("收入证明 / 工资单", "签证材料", "用于证明旅行费用来源", "建议"),
+      item("邀请信", "签证材料", "探亲访友时准备", "按情况"),
+      item("英文翻译件", "其他", "非英文/威尔士语文件通常需要翻译", "按情况"),
     ],
   },
   {
-    name: "日本旅游签",
-    description: "申请表、行程、财力证明",
+    id: "uk-visitor-business-employed",
+    country: "英国",
+    type: "商务签",
+    audience: "在职",
+    name: "英国商务访问 · 在职",
+    description: "会议、商务洽谈、短期访问",
+    sourceName: "GOV.UK Business visitor",
+    sourceUrl: "https://www.gov.uk/standard-visitor/visit-on-business",
     items: [
-      { name: "护照", category: "签证材料", note: "" },
-      { name: "日本签证申请表", category: "签证材料", note: "" },
-      { name: "证件照", category: "签证材料", note: "" },
-      { name: "身份证复印件", category: "签证材料", note: "" },
-      { name: "户口本复印件", category: "签证材料", note: "" },
-      { name: "赴日行程单", category: "其他", note: "" },
-      { name: "酒店预订单", category: "住宿材料", note: "" },
-      { name: "机票预订单", category: "其他", note: "" },
-      { name: "银行流水 / 存款证明", category: "签证材料", note: "" },
-      { name: "在职证明 / 在读证明", category: "签证材料", note: "" },
+      item("有效护照", "签证材料"),
+      item("在线签证申请表", "签证材料"),
+      item("签证费付款证明", "付款材料"),
+      item("商务邀请函", "签证材料", "说明访问目的、时间、邀请方信息"),
+      item("派遣函 / 在职证明", "签证材料", "说明职位、薪资、准假和费用承担"),
+      item("会议 / 展会 / 培训确认", "其他", "按实际访问目的准备"),
+      item("行程计划", "其他"),
+      item("住宿信息", "住宿材料"),
+      item("资金证明 / 银行流水", "签证材料"),
+      item("英文翻译件", "其他", "非英文/威尔士语文件通常需要翻译", "按情况"),
     ],
   },
   {
-    name: "美国旅游签",
-    description: "DS-160、预约、面签材料",
+    id: "schengen-tourism-employed",
+    country: "申根",
+    type: "旅游签",
+    audience: "在职",
+    name: "申根旅游签 · 在职",
+    description: "短期旅游，按主目的国使馆要求提交",
+    sourceName: "European Commission Schengen visa",
+    sourceUrl: "https://home-affairs.ec.europa.eu/policies/schengen-borders-and-visa/visa-policy/applying-schengen-visa_en",
     items: [
-      { name: "护照", category: "签证材料", note: "" },
-      { name: "DS-160 确认页", category: "签证材料", note: "" },
-      { name: "签证预约确认页", category: "签证材料", note: "" },
-      { name: "签证费付款证明", category: "付款材料", note: "" },
-      { name: "证件照", category: "签证材料", note: "" },
-      { name: "旅行计划", category: "其他", note: "" },
-      { name: "银行流水 / 存款证明", category: "签证材料", note: "" },
-      { name: "在职证明 / 在读证明", category: "签证材料", note: "" },
-      { name: "房产 / 资产证明（如有）", category: "其他", note: "" },
-      { name: "旧护照和过往签证（如有）", category: "签证材料", note: "" },
+      item("有效护照", "签证材料"),
+      item("申根签证申请表", "签证材料"),
+      item("证件照", "签证材料"),
+      item("旅行医疗保险", "其他"),
+      item("往返机票预订单", "其他"),
+      item("酒店预订单 / 住宿证明", "住宿材料"),
+      item("旅行行程单", "其他"),
+      item("资金证明 / 银行流水", "签证材料"),
+      item("在职证明", "签证材料"),
+      item("准假证明", "签证材料"),
+      item("户口本 / 身份证明", "签证材料", "按递签地要求准备", "按情况"),
     ],
   },
   {
-    name: "行前准备",
-    description: "机票、住宿、保险、到校",
+    id: "schengen-tourism-student",
+    country: "申根",
+    type: "旅游签",
+    audience: "学生",
+    name: "申根旅游签 · 学生",
+    description: "学生短期旅游材料",
+    sourceName: "European Commission Schengen visa",
+    sourceUrl: "https://home-affairs.ec.europa.eu/policies/schengen-borders-and-visa/visa-policy/applying-schengen-visa_en",
     items: [
-      { name: "机票订单", category: "其他", note: "" },
-      { name: "住宿合同", category: "住宿材料", note: "" },
-      { name: "住宿押金付款证明", category: "付款材料", note: "" },
-      { name: "学费付款证明", category: "付款材料", note: "" },
-      { name: "保险信息", category: "其他", note: "" },
-      { name: "接机 / 到校注册信息", category: "其他", note: "" },
-      { name: "学校注册邮件", category: "申请材料", note: "" },
-      { name: "银行卡办理材料", category: "其他", note: "" },
-      { name: "电话卡 / 网络准备", category: "其他", note: "" },
-      { name: "重要文件电子备份", category: "其他", note: "护照、签证、Offer、住宿、付款证明等" },
+      item("有效护照", "签证材料"),
+      item("申根签证申请表", "签证材料"),
+      item("证件照", "签证材料"),
+      item("旅行医疗保险", "其他"),
+      item("往返机票预订单", "其他"),
+      item("酒店预订单 / 住宿证明", "住宿材料"),
+      item("旅行行程单", "其他"),
+      item("资金证明 / 银行流水", "签证材料"),
+      item("在读证明", "签证材料"),
+      item("学生证", "签证材料", "按递签地要求准备", "建议"),
+      item("父母资助声明", "签证材料", "使用父母资金时准备", "按情况"),
+      item("亲属关系证明", "签证材料", "使用父母资金时准备", "按情况"),
+    ],
+  },
+  {
+    id: "schengen-business-employed",
+    country: "申根",
+    type: "商务签",
+    audience: "在职",
+    name: "申根商务签 · 在职",
+    description: "会议、展会、商务访问",
+    sourceName: "European Commission Schengen visa",
+    sourceUrl: "https://home-affairs.ec.europa.eu/policies/schengen-borders-and-visa/visa-policy/applying-schengen-visa_en",
+    items: [
+      item("有效护照", "签证材料"),
+      item("申根签证申请表", "签证材料"),
+      item("证件照", "签证材料"),
+      item("旅行医疗保险", "其他"),
+      item("商务邀请函", "签证材料"),
+      item("会议 / 展会确认", "其他", "按访问目的准备"),
+      item("派遣函 / 在职证明", "签证材料"),
+      item("营业执照 / 公司证明", "签证材料", "按递签地要求准备", "按情况"),
+      item("往返机票预订单", "其他"),
+      item("酒店预订单 / 住宿证明", "住宿材料"),
+      item("资金证明 / 银行流水", "签证材料"),
+    ],
+  },
+  {
+    id: "japan-tourism-employed",
+    country: "日本",
+    type: "旅游签",
+    audience: "在职",
+    name: "日本旅游签 · 在职",
+    description: "旅游访问，材料以日本驻当地使领馆/代办机构为准",
+    sourceName: "MOFA Japan visa",
+    sourceUrl: "https://www.mofa.go.jp/j_info/visit/visa/index.html",
+    items: [
+      item("有效护照", "签证材料"),
+      item("日本签证申请表", "签证材料"),
+      item("证件照", "签证材料"),
+      item("身份证明", "签证材料"),
+      item("户口本 / 居住证明", "签证材料", "按递签地要求准备", "按情况"),
+      item("赴日行程单", "其他"),
+      item("酒店预订单", "住宿材料"),
+      item("机票预订单", "其他"),
+      item("银行流水 / 存款证明", "签证材料"),
+      item("在职证明", "签证材料"),
+      item("营业执照副本 / 公司证明", "签证材料", "部分递签地可能要求", "按情况"),
+    ],
+  },
+  {
+    id: "japan-tourism-student",
+    country: "日本",
+    type: "旅游签",
+    audience: "学生",
+    name: "日本旅游签 · 学生",
+    description: "学生旅游访问材料",
+    sourceName: "MOFA Japan visa",
+    sourceUrl: "https://www.mofa.go.jp/j_info/visit/visa/index.html",
+    items: [
+      item("有效护照", "签证材料"),
+      item("日本签证申请表", "签证材料"),
+      item("证件照", "签证材料"),
+      item("身份证明", "签证材料"),
+      item("户口本 / 居住证明", "签证材料", "按递签地要求准备", "按情况"),
+      item("赴日行程单", "其他"),
+      item("酒店预订单", "住宿材料"),
+      item("机票预订单", "其他"),
+      item("在读证明", "签证材料"),
+      item("父母资金证明", "签证材料", "使用父母资金时准备", "按情况"),
+      item("亲属关系证明", "签证材料", "使用父母资金时准备", "按情况"),
+    ],
+  },
+  {
+    id: "japan-business-employed",
+    country: "日本",
+    type: "商务签",
+    audience: "在职",
+    name: "日本商务签 · 在职",
+    description: "短期商务、会议、访问",
+    sourceName: "MOFA Japan visa",
+    sourceUrl: "https://www.mofa.go.jp/j_info/visit/visa/index.html",
+    items: [
+      item("有效护照", "签证材料"),
+      item("日本签证申请表", "签证材料"),
+      item("证件照", "签证材料"),
+      item("商务邀请函", "签证材料"),
+      item("身元保证书", "签证材料", "日本邀请方可能需要提供", "按情况"),
+      item("滞在预定表", "其他"),
+      item("派遣函 / 在职证明", "签证材料"),
+      item("公司营业执照 / 公司证明", "签证材料"),
+      item("机票预订单", "其他"),
+      item("酒店预订单", "住宿材料"),
+    ],
+  },
+  {
+    id: "us-tourism-employed",
+    country: "美国",
+    type: "旅游签",
+    audience: "在职",
+    name: "美国 B2 旅游签 · 在职",
+    description: "DS-160、面签预约、在职和资金证明",
+    sourceName: "Travel.State.Gov Visitor visa",
+    sourceUrl: "https://travel.state.gov/content/travel/en/us-visas/tourism-visit/visitor.html",
+    items: [
+      item("有效护照", "签证材料"),
+      item("DS-160 确认页", "签证材料"),
+      item("签证预约确认页", "签证材料"),
+      item("签证费付款证明", "付款材料"),
+      item("证件照", "签证材料"),
+      item("旅行计划", "其他"),
+      item("资金证明 / 银行流水", "签证材料", "证明可承担旅行费用", "建议"),
+      item("在职证明", "签证材料", "证明回国约束力", "建议"),
+      item("房产 / 资产证明", "其他", "按个人情况准备", "按情况"),
+      item("旧护照和过往签证", "签证材料", "如有", "按情况"),
+    ],
+  },
+  {
+    id: "us-tourism-student",
+    country: "美国",
+    type: "旅游签",
+    audience: "学生",
+    name: "美国 B2 旅游签 · 学生",
+    description: "DS-160、面签预约、在读和资金证明",
+    sourceName: "Travel.State.Gov Visitor visa",
+    sourceUrl: "https://travel.state.gov/content/travel/en/us-visas/tourism-visit/visitor.html",
+    items: [
+      item("有效护照", "签证材料"),
+      item("DS-160 确认页", "签证材料"),
+      item("签证预约确认页", "签证材料"),
+      item("签证费付款证明", "付款材料"),
+      item("证件照", "签证材料"),
+      item("旅行计划", "其他"),
+      item("在读证明", "签证材料", "证明学生身份和回国约束力", "建议"),
+      item("父母资金证明", "签证材料", "使用父母资金时准备", "按情况"),
+      item("亲属关系证明", "签证材料", "使用父母资金时准备", "按情况"),
+      item("旧护照和过往签证", "签证材料", "如有", "按情况"),
+    ],
+  },
+  {
+    id: "us-business-employed",
+    country: "美国",
+    type: "商务签",
+    audience: "在职",
+    name: "美国 B1 商务签 · 在职",
+    description: "会议、商务洽谈、短期商务访问",
+    sourceName: "Travel.State.Gov Visitor visa",
+    sourceUrl: "https://travel.state.gov/content/travel/en/us-visas/tourism-visit/visitor.html",
+    items: [
+      item("有效护照", "签证材料"),
+      item("DS-160 确认页", "签证材料"),
+      item("签证预约确认页", "签证材料"),
+      item("签证费付款证明", "付款材料"),
+      item("商务邀请函", "签证材料"),
+      item("派遣函 / 在职证明", "签证材料"),
+      item("会议 / 展会确认", "其他", "按访问目的准备"),
+      item("旅行计划", "其他"),
+      item("资金证明 / 银行流水", "签证材料", "按个人情况准备", "建议"),
+      item("旧护照和过往签证", "签证材料", "如有", "按情况"),
+    ],
+  },
+  {
+    id: "departure-general-student",
+    country: "通用",
+    type: "行前准备",
+    audience: "学生",
+    name: "行前准备 · 留学生",
+    description: "机票、住宿、保险、到校注册",
+    sourceName: "个人行前清单",
+    sourceUrl: "",
+    items: [
+      item("机票订单", "其他"),
+      item("住宿合同", "住宿材料"),
+      item("住宿押金付款证明", "付款材料"),
+      item("学费付款证明", "付款材料"),
+      item("保险信息", "其他"),
+      item("接机 / 到校注册信息", "其他"),
+      item("学校注册邮件", "申请材料"),
+      item("银行卡办理材料", "其他"),
+      item("电话卡 / 网络准备", "其他"),
+      item("重要文件电子备份", "其他", "护照、签证、Offer、住宿、付款证明等"),
     ],
   },
 ];
@@ -126,11 +345,19 @@ let materials = loadMaterials();
 let activeCategory = "全部";
 let searchText = "";
 let sortMode = "default";
+let selectedTemplateId = templates[0]?.id || "";
+let templateCountryFilter = "全部";
+let templateTypeFilter = "全部";
+let templateAudienceFilter = "全部";
 
 const elements = {
   filterButtons: document.querySelector("#filter-buttons"),
   templateButtons: document.querySelector("#template-buttons"),
   templateMessage: document.querySelector("#template-message"),
+  templatePreview: document.querySelector("#template-preview"),
+  templateCountry: document.querySelector("#template-country"),
+  templateType: document.querySelector("#template-type"),
+  templateAudience: document.querySelector("#template-audience"),
   list: document.querySelector("#material-list"),
   listTitle: document.querySelector("#list-title"),
   visibleCount: document.querySelector("#visible-count"),
@@ -156,6 +383,10 @@ const elements = {
 
 function createId() {
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
+function item(name, category, note = "", level = "必备") {
+  return { name, category, note, level };
 }
 
 function loadMaterials() {
@@ -191,16 +422,100 @@ function fillSelectOptions() {
 }
 
 function renderTemplates() {
-  elements.templateButtons.innerHTML = templates
+  const visibleTemplates = getVisibleTemplates();
+
+  if (!visibleTemplates.some((template) => template.id === selectedTemplateId)) {
+    selectedTemplateId = visibleTemplates[0]?.id || "";
+  }
+
+  elements.templateButtons.innerHTML = visibleTemplates
     .map(
       (template) => `
-        <button class="template-button" type="button" data-template="${template.name}">
-          <strong>${template.name}</strong>
-          <span>${template.description}</span>
+        <button class="template-button ${template.id === selectedTemplateId ? "active" : ""}" type="button" data-template-id="${template.id}">
+          <strong>${escapeHtml(template.name)}</strong>
+          <span>${escapeHtml(template.description)}</span>
+          <small>${escapeHtml(template.country)} · ${escapeHtml(template.type)} · ${escapeHtml(template.audience)}</small>
         </button>
       `
     )
     .join("");
+
+  if (visibleTemplates.length === 0) {
+    elements.templateButtons.innerHTML = '<div class="empty-state">没有找到符合条件的模板。</div>';
+  }
+
+  renderTemplatePreview();
+}
+
+function fillTemplateFilters() {
+  fillTemplateFilter(elements.templateCountry, ["全部", ...uniqueValues(templates, "country")]);
+  fillTemplateFilter(elements.templateType, ["全部", ...uniqueValues(templates, "type")]);
+  fillTemplateFilter(elements.templateAudience, ["全部", ...uniqueValues(templates, "audience")]);
+}
+
+function fillTemplateFilter(select, options) {
+  select.innerHTML = options.map((option) => `<option value="${option}">${option}</option>`).join("");
+}
+
+function uniqueValues(items, key) {
+  return [...new Set(items.map((item) => item[key]))];
+}
+
+function getVisibleTemplates() {
+  return templates.filter((template) => {
+    const countryMatched = templateCountryFilter === "全部" || template.country === templateCountryFilter;
+    const typeMatched = templateTypeFilter === "全部" || template.type === templateTypeFilter;
+    const audienceMatched = templateAudienceFilter === "全部" || template.audience === templateAudienceFilter;
+    return countryMatched && typeMatched && audienceMatched;
+  });
+}
+
+function renderTemplatePreview() {
+  const template = templates.find((item) => item.id === selectedTemplateId);
+
+  if (!template) {
+    elements.templatePreview.innerHTML = "";
+    return;
+  }
+
+  const requiredItems = template.items.filter((templateItem) => templateItem.level === "必备").length;
+  const conditionalItems = template.items.length - requiredItems;
+  const sourceLink = template.sourceUrl
+    ? `<a href="${template.sourceUrl}" target="_blank" rel="noreferrer">${escapeHtml(template.sourceName)}</a>`
+    : `<span>${escapeHtml(template.sourceName)}</span>`;
+
+  elements.templatePreview.innerHTML = `
+    <div class="preview-top">
+      <div>
+        <p class="eyebrow">${escapeHtml(template.country)} · ${escapeHtml(template.type)} · ${escapeHtml(template.audience)}</p>
+        <h3>${escapeHtml(template.name)}</h3>
+        <p class="preview-note">${escapeHtml(template.description)}</p>
+      </div>
+      <button class="primary" type="button" data-action="apply-template" data-template-id="${template.id}">添加这个模板</button>
+    </div>
+    <div class="preview-meta">
+      <span>${template.items.length} 项材料</span>
+      <span>${requiredItems} 项必备</span>
+      <span>${conditionalItems} 项按情况/建议</span>
+      <span>来源：${sourceLink}</span>
+    </div>
+    <ul class="template-materials">
+      ${template.items
+        .map(
+          (templateItem) => `
+            <li>
+              <div>
+                <strong>${escapeHtml(templateItem.name)}</strong>
+                <span>${escapeHtml(templateItem.category)}${templateItem.note ? ` · ${escapeHtml(templateItem.note)}` : ""}</span>
+              </div>
+              <em class="${templateItem.level === "必备" ? "required" : "conditional"}">${escapeHtml(templateItem.level)}</em>
+            </li>
+          `
+        )
+        .join("")}
+    </ul>
+    <p class="source-warning">签证规则会随国籍、递签地和申请时间变化，这里是通用准备清单，提交前请以官方网站、签证中心或院校要求为准。</p>
+  `;
 }
 
 function renderFilters() {
@@ -404,8 +719,8 @@ function deleteMaterial(id) {
   render();
 }
 
-function applyTemplate(templateName) {
-  const template = templates.find((item) => item.name === templateName);
+function applyTemplate(templateId) {
+  const template = templates.find((item) => item.id === templateId);
   if (!template) return;
 
   const existingNames = new Set(materials.map((material) => normalizeText(material.name)));
@@ -420,7 +735,7 @@ function applyTemplate(templateName) {
         category: item.category,
         status: "未开始",
         deadline: "",
-        note: item.note || "",
+        note: item.note ? `${item.note}（来自：${template.name}）` : `来自：${template.name}`,
       })),
     ];
 
@@ -457,11 +772,34 @@ elements.form.addEventListener("submit", handleFormSubmit);
 
 elements.cancelEditButton.addEventListener("click", resetForm);
 
+elements.templateCountry.addEventListener("change", (event) => {
+  templateCountryFilter = event.target.value;
+  renderTemplates();
+});
+
+elements.templateType.addEventListener("change", (event) => {
+  templateTypeFilter = event.target.value;
+  renderTemplates();
+});
+
+elements.templateAudience.addEventListener("change", (event) => {
+  templateAudienceFilter = event.target.value;
+  renderTemplates();
+});
+
 elements.templateButtons.addEventListener("click", (event) => {
-  const button = event.target.closest("[data-template]");
+  const button = event.target.closest("[data-template-id]");
   if (!button) return;
 
-  applyTemplate(button.dataset.template);
+  selectedTemplateId = button.dataset.templateId;
+  renderTemplates();
+});
+
+elements.templatePreview.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-action='apply-template']");
+  if (!button) return;
+
+  applyTemplate(button.dataset.templateId);
 });
 
 elements.search.addEventListener("input", (event) => {
@@ -496,5 +834,6 @@ elements.list.addEventListener("click", (event) => {
 });
 
 fillSelectOptions();
+fillTemplateFilters();
 resetForm();
 render();

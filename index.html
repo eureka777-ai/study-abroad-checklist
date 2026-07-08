@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>留学材料 Checklist</title>
+    <title>材料 Checklist</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -11,8 +11,8 @@
       <section class="hero">
         <div>
           <p class="eyebrow">Study Abroad Planner</p>
-          <h1>留学材料 Checklist</h1>
-          <p class="subtle">整理申请、签证、住宿和付款材料，刷新页面后数据也会保留。</p>
+          <h1>材料 Checklist</h1>
+          <p class="subtle">整理留学申请、签证、住宿、付款和行前材料，刷新页面后数据也会保留。</p>
         </div>
         <div class="progress-panel" aria-live="polite">
           <span id="progress-count">准备进度：0 / 0</span>
@@ -50,11 +50,26 @@
         <div class="section-heading">
           <div>
             <h2>选择模板</h2>
-            <p class="section-note">一键添加常见清单，已有材料会自动跳过。</p>
+            <p class="section-note">先按国家、签证类型和身份筛选，点模板查看材料，再决定是否添加。</p>
           </div>
           <span id="template-message" class="template-message" aria-live="polite"></span>
         </div>
+        <div class="template-filters">
+          <label>
+            <span>国家 / 地区</span>
+            <select id="template-country"></select>
+          </label>
+          <label>
+            <span>类型</span>
+            <select id="template-type"></select>
+          </label>
+          <label>
+            <span>身份</span>
+            <select id="template-audience"></select>
+          </label>
+        </div>
         <div id="template-buttons" class="template-buttons"></div>
+        <div id="template-preview" class="template-preview"></div>
       </section>
 
       <section class="form-section">
