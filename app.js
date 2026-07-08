@@ -1,20 +1,47 @@
 const STORAGE_KEY = "study-abroad-checklist-materials";
 
 const categories = ["全部", "申请材料", "学术材料", "语言材料", "签证材料", "住宿材料", "付款材料", "其他"];
-const statuses = ["未开始", "准备中", "已完成", "已上传", "已确认"];
+const statuses = ["未开始", "准备中", "已完成", "已上传", "已确认", "不适用"];
 const readyStatuses = ["已完成", "已上传", "已确认"];
+const requirementLevels = ["必需", "视情况需要", "可选"];
+const guideSources = {
+  govUkStudent: {
+    sourceName: "GOV.UK Student visa",
+    sourceUrl: "https://www.gov.uk/student-visa/documents-you-must-provide",
+  },
+  govUkStudentApply: {
+    sourceName: "GOV.UK Student visa apply",
+    sourceUrl: "https://www.gov.uk/student-visa/apply",
+  },
+  govUkTb: {
+    sourceName: "GOV.UK Approved TB clinics",
+    sourceUrl: "https://www.gov.uk/tb-test-visa",
+  },
+  govUkAtas: {
+    sourceName: "GOV.UK ATAS guidance",
+    sourceUrl: "https://www.gov.uk/guidance/academic-technology-approval-scheme",
+  },
+  usDs160: {
+    sourceName: "Travel.State.Gov DS-160",
+    sourceUrl: "https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/forms/ds-160-online-nonimmigrant-visa-application.html",
+  },
+  usVisitor: {
+    sourceName: "Travel.State.Gov Visitor visa",
+    sourceUrl: "https://travel.state.gov/content/travel/en/us-visas/tourism-visit/visitor.html",
+  },
+};
 
 const defaultMaterials = [
-  { name: "护照", category: "签证材料", status: "未开始", deadline: "", note: "" },
+  { name: "护照", category: "签证材料", status: "未开始", deadline: "", note: "", howToGet: "向户籍地或居住地出入境管理部门申请或换发。", appliesTo: "几乎所有留学、签证和出入境场景都需要。" },
   { name: "Conditional Offer", category: "申请材料", status: "未开始", deadline: "", note: "" },
   { name: "Unconditional Offer", category: "申请材料", status: "未开始", deadline: "", note: "" },
-  { name: "CAS", category: "签证材料", status: "未开始", deadline: "", note: "" },
+  { name: "CAS", category: "签证材料", status: "未开始", deadline: "", note: "", sourceName: "学校 / GOV.UK", sourceUrl: guideSources.govUkStudent.sourceUrl, howToGet: "通常在换成 Unconditional Offer、满足学校要求并确认入读后由学校发放。", appliesTo: "英国学生签证需要。CAS 信息需要和护照、课程、学费等信息一致。" },
   { name: "毕业证", category: "学术材料", status: "未开始", deadline: "", note: "" },
   { name: "学位证", category: "学术材料", status: "未开始", deadline: "", note: "" },
   { name: "中英文成绩单", category: "学术材料", status: "未开始", deadline: "", note: "" },
   { name: "雅思成绩单", category: "语言材料", status: "未开始", deadline: "", note: "" },
-  { name: "TB 肺结核检测证明", category: "签证材料", status: "未开始", deadline: "", note: "" },
-  { name: "签证申请表", category: "签证材料", status: "未开始", deadline: "", note: "" },
+  { name: "TB 肺结核检测证明", category: "签证材料", status: "未开始", deadline: "", note: "", ...guideSources.govUkTb, howToGet: "按 GOV.UK 要求预约 Home Office 认可诊所并完成检测。", appliesTo: "来自指定国家/地区、申请长期英国签证时通常需要；普通医院证明可能不被接受。" },
+  { name: "签证申请表", category: "签证材料", status: "未开始", deadline: "", note: "", ...guideSources.govUkStudentApply, howToGet: "通过对应国家/地区的官方签证申请入口在线填写。", appliesTo: "不同国家和签证类型使用不同表格；美国非移民签证使用 DS-160，英国学生签证不使用 DS-160。" },
   { name: "IHS 付款证明", category: "付款材料", status: "未开始", deadline: "", note: "" },
   { name: "住宿合同", category: "住宿材料", status: "未开始", deadline: "", note: "" },
   { name: "学费付款证明", category: "付款材料", status: "未开始", deadline: "", note: "" },
@@ -55,14 +82,34 @@ const templates = [
     sourceName: "GOV.UK Student visa",
     sourceUrl: "https://www.gov.uk/student-visa/documents-you-must-provide",
     items: [
-      item("有效护照", "签证材料"),
-      item("CAS", "签证材料", "核对姓名、课程、学费、已付款金额等信息"),
-      item("签证申请表", "签证材料"),
+      item("有效护照", "签证材料", "", "必备", {
+        howToGet: "向出入境管理部门申请或换发护照。",
+        appliesTo: "GOV.UK 学生签证材料说明中列为申请所需身份证明文件。",
+      }),
+      item("CAS", "签证材料", "核对姓名、课程、学费、已付款金额等信息", "必备", {
+        sourceName: "学校 / GOV.UK Student visa",
+        sourceUrl: guideSources.govUkStudent.sourceUrl,
+        howToGet: "换成 Unconditional Offer、满足学校要求并确认入读后，通常由学校发放。",
+        appliesTo: "英国学生签证需要。CAS 信息需要和护照、课程、学费等信息一致。",
+      }),
+      item("签证申请表", "签证材料", "", "必备", {
+        ...guideSources.govUkStudentApply,
+        howToGet: "通过 GOV.UK 在线申请 Student visa。",
+        appliesTo: "英国学生签证使用 GOV.UK 在线申请入口，不使用美国 DS-160。",
+      }),
       item("IHS 付款证明", "付款材料"),
       item("签证费付款证明", "付款材料"),
       item("资金证明", "签证材料", "按 UKVI 资金要求准备"),
-      item("ATAS 证明", "签证材料", "部分专业需要", "按情况"),
-      item("TB 肺结核检测证明", "签证材料", "来自指定国家/地区时通常需要", "按情况"),
+      item("ATAS 证明", "签证材料", "部分专业需要", "按情况", {
+        ...guideSources.govUkAtas,
+        howToGet: "在 GOV.UK ATAS 页面查看专业是否需要，并按要求在线申请。",
+        appliesTo: "仅部分敏感技术相关专业需要，不是所有学生都需要。",
+      }),
+      item("TB 肺结核检测证明", "签证材料", "来自指定国家/地区时通常需要", "按情况", {
+        ...guideSources.govUkTb,
+        howToGet: "预约并前往 Home Office 认可的 TB 检测诊所。",
+        appliesTo: "来自指定国家/地区、申请长期英国签证时通常需要。",
+      }),
       item("父母同意书", "签证材料", "18 岁以下申请人需要", "按情况"),
       item("出生证明 / 亲属关系证明", "签证材料", "使用父母资金或未成年人申请时可能需要", "按情况"),
       item("英文翻译件", "其他", "非英文/威尔士语文件通常需要翻译", "按情况"),
@@ -262,7 +309,11 @@ const templates = [
     sourceUrl: "https://travel.state.gov/content/travel/en/us-visas/tourism-visit/visitor.html",
     items: [
       item("有效护照", "签证材料"),
-      item("DS-160 确认页", "签证材料"),
+      item("DS-160 确认页", "签证材料", "", "必备", {
+        ...guideSources.usDs160,
+        howToGet: "通过美国非移民签证 DS-160 在线系统填写并保存确认页。",
+        appliesTo: "美国 B1/B2 等非移民签证使用；不适用于英国学生签证。",
+      }),
       item("签证预约确认页", "签证材料"),
       item("签证费付款证明", "付款材料"),
       item("证件照", "签证材料"),
@@ -284,7 +335,11 @@ const templates = [
     sourceUrl: "https://travel.state.gov/content/travel/en/us-visas/tourism-visit/visitor.html",
     items: [
       item("有效护照", "签证材料"),
-      item("DS-160 确认页", "签证材料"),
+      item("DS-160 确认页", "签证材料", "", "必备", {
+        ...guideSources.usDs160,
+        howToGet: "通过美国非移民签证 DS-160 在线系统填写并保存确认页。",
+        appliesTo: "美国 B1/B2 等非移民签证使用；不适用于英国学生签证。",
+      }),
       item("签证预约确认页", "签证材料"),
       item("签证费付款证明", "付款材料"),
       item("证件照", "签证材料"),
@@ -306,7 +361,11 @@ const templates = [
     sourceUrl: "https://travel.state.gov/content/travel/en/us-visas/tourism-visit/visitor.html",
     items: [
       item("有效护照", "签证材料"),
-      item("DS-160 确认页", "签证材料"),
+      item("DS-160 确认页", "签证材料", "", "必备", {
+        ...guideSources.usDs160,
+        howToGet: "通过美国非移民签证 DS-160 在线系统填写并保存确认页。",
+        appliesTo: "美国 B1/B2 等非移民签证使用；不适用于英国学生签证。",
+      }),
       item("签证预约确认页", "签证材料"),
       item("签证费付款证明", "付款材料"),
       item("商务邀请函", "签证材料"),
@@ -353,6 +412,8 @@ let templateAudienceFilter = "全部";
 const elements = {
   filterButtons: document.querySelector("#filter-buttons"),
   templateButtons: document.querySelector("#template-buttons"),
+  templateBody: document.querySelector("#template-body"),
+  toggleTemplateButton: document.querySelector("#toggle-template-btn"),
   templateMessage: document.querySelector("#template-message"),
   templatePreview: document.querySelector("#template-preview"),
   templateCountry: document.querySelector("#template-country"),
@@ -377,16 +438,32 @@ const elements = {
   name: document.querySelector("#material-name"),
   category: document.querySelector("#material-category"),
   status: document.querySelector("#material-status"),
+  requirementLevel: document.querySelector("#material-requirement-level"),
   deadline: document.querySelector("#material-deadline"),
   note: document.querySelector("#material-note"),
+  sourceName: document.querySelector("#material-source-name"),
+  sourceUrl: document.querySelector("#material-source-url"),
+  howToGet: document.querySelector("#material-how-to-get"),
+  nextAction: document.querySelector("#material-next-action"),
+  appliesTo: document.querySelector("#material-applies-to"),
+  detailModal: document.querySelector("#detail-modal"),
+  detailTitle: document.querySelector("#detail-title"),
+  detailContent: document.querySelector("#detail-content"),
+  closeDetailButton: document.querySelector("#close-detail-btn"),
 };
 
 function createId() {
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
-function item(name, category, note = "", level = "必备") {
-  return { name, category, note, level };
+function item(name, category, note = "", level = "必备", guide = {}) {
+  return { name, category, note, level, requirementLevel: normalizeRequirementLevel(level), ...guide };
+}
+
+function normalizeRequirementLevel(level) {
+  if (level === "必备" || level === "必需") return "必需";
+  if (level === "按情况" || level === "视情况需要") return "视情况需要";
+  return "可选";
 }
 
 function loadMaterials() {
@@ -478,10 +555,10 @@ function renderTemplatePreview() {
     return;
   }
 
-  const requiredItems = template.items.filter((templateItem) => templateItem.level === "必备").length;
+  const requiredItems = template.items.filter((templateItem) => templateItem.requirementLevel === "必需").length;
   const conditionalItems = template.items.length - requiredItems;
   const sourceLink = template.sourceUrl
-    ? `<a href="${template.sourceUrl}" target="_blank" rel="noreferrer">${escapeHtml(template.sourceName)}</a>`
+    ? `<a href="${template.sourceUrl}" target="_blank" rel="noopener noreferrer">${escapeHtml(template.sourceName)}</a>`
     : `<span>${escapeHtml(template.sourceName)}</span>`;
 
   elements.templatePreview.innerHTML = `
@@ -491,7 +568,7 @@ function renderTemplatePreview() {
         <h3>${escapeHtml(template.name)}</h3>
         <p class="preview-note">${escapeHtml(template.description)}</p>
       </div>
-      <button class="primary" type="button" data-action="apply-template" data-template-id="${template.id}">添加这个模板</button>
+      <button id="apply-template-btn" class="primary" type="button" data-action="apply-template" data-template-id="${template.id}">添加选中的 ${template.items.length} 项</button>
     </div>
     <div class="preview-meta">
       <span>${template.items.length} 项材料</span>
@@ -504,11 +581,14 @@ function renderTemplatePreview() {
         .map(
           (templateItem) => `
             <li>
-              <div>
-                <strong>${escapeHtml(templateItem.name)}</strong>
-                <span>${escapeHtml(templateItem.category)}${templateItem.note ? ` · ${escapeHtml(templateItem.note)}` : ""}</span>
-              </div>
-              <em class="${templateItem.level === "必备" ? "required" : "conditional"}">${escapeHtml(templateItem.level)}</em>
+              <label class="template-check">
+                <input type="checkbox" data-template-item="${escapeHtml(templateItem.name)}" checked />
+                <span>
+                  <strong>${escapeHtml(templateItem.name)}</strong>
+                  <small>${escapeHtml(templateItem.category)}${templateItem.note ? ` · ${escapeHtml(templateItem.note)}` : ""}</small>
+                </span>
+              </label>
+              <em class="${templateItem.requirementLevel === "必需" ? "required" : "conditional"}">${escapeHtml(templateItem.requirementLevel)}</em>
             </li>
           `
         )
@@ -528,19 +608,25 @@ function renderFilters() {
 }
 
 function renderProgress() {
-  const total = materials.length;
-  const ready = materials.filter((material) => readyStatuses.includes(material.status)).length;
+  const applicableMaterials = materials.filter((material) => material.status !== "不适用");
+  const requiredMaterials = applicableMaterials.filter((material) => getRequirementLevel(material) === "必需");
+  const readyRequired = requiredMaterials.filter((material) => readyStatuses.includes(material.status)).length;
   const done = materials.filter((material) => material.status === "已完成").length;
   const uploaded = materials.filter((material) => material.status === "已上传").length;
   const confirmed = materials.filter((material) => material.status === "已确认").length;
-  const percent = total === 0 ? 0 : Math.round((ready / total) * 100);
+  const notApplicable = materials.filter((material) => material.status === "不适用").length;
+  const percent = requiredMaterials.length === 0 ? 0 : Math.round((readyRequired / requiredMaterials.length) * 100);
 
-  elements.progressCount.textContent = `准备进度：${ready} / ${total}`;
+  elements.progressCount.textContent = `必需材料：${readyRequired} / ${requiredMaterials.length}`;
   elements.progressPercent.textContent = `${percent}%`;
   elements.progressBar.style.width = `${percent}%`;
   elements.doneCount.textContent = done;
   elements.uploadedCount.textContent = uploaded;
-  elements.confirmedCount.textContent = confirmed;
+  elements.confirmedCount.textContent = `${confirmed} / 不适用 ${notApplicable}`;
+}
+
+function getRequirementLevel(material) {
+  return material.requirementLevel || normalizeRequirementLevel(material.level || "必需");
 }
 
 function getVisibleMaterials() {
@@ -553,7 +639,8 @@ function getVisibleMaterials() {
   if (searchText) {
     visibleMaterials = visibleMaterials.filter((material) => {
       const searchTarget = `${material.name} ${material.note}`.toLowerCase();
-      return searchTarget.includes(searchText.toLowerCase());
+      const guideTarget = `${material.sourceName || ""} ${material.howToGet || ""} ${material.appliesTo || ""}`.toLowerCase();
+      return `${searchTarget} ${guideTarget}`.includes(searchText.toLowerCase());
     });
   }
 
@@ -625,6 +712,8 @@ function renderMaterials() {
     .map((material) => {
       const deadline = getDeadlineInfo(material.deadline);
       const noteText = material.note ? material.note : "暂无备注";
+      const requirementLevel = getRequirementLevel(material);
+      const nextActionText = material.nextAction || material.howToGet || "暂未设置下一步";
 
       return `
         <article class="material-card">
@@ -634,10 +723,12 @@ function renderMaterials() {
           </div>
           <div class="meta">
             <span class="pill">${material.category}</span>
+            <span class="pill requirement requirement-${requirementLevel}">${requirementLevel}</span>
             <span class="pill deadline deadline-${deadline.level}">${deadline.text}</span>
           </div>
-          <p class="note">${escapeHtml(noteText)}</p>
+          <p class="next-action"><strong>下一步</strong>${escapeHtml(nextActionText)}</p>
           <div class="card-actions">
+            <button class="text-button" type="button" data-action="details" data-id="${material.id}">查看详情</button>
             <button class="text-button" type="button" data-action="edit" data-id="${material.id}">编辑</button>
             <button class="danger-button" type="button" data-action="delete" data-id="${material.id}">删除</button>
           </div>
@@ -658,6 +749,7 @@ function resetForm() {
   elements.form.reset();
   elements.id.value = "";
   elements.status.value = "未开始";
+  elements.requirementLevel.value = "必需";
   elements.formTitle.textContent = "添加新材料";
   elements.submitButton.textContent = "添加材料";
   elements.cancelEditButton.classList.add("hidden");
@@ -671,8 +763,14 @@ function handleFormSubmit(event) {
     name: elements.name.value.trim(),
     category: elements.category.value,
     status: elements.status.value,
+    requirementLevel: elements.requirementLevel.value,
     deadline: elements.deadline.value,
     note: elements.note.value.trim(),
+    sourceName: elements.sourceName.value.trim(),
+    sourceUrl: elements.sourceUrl.value.trim(),
+    howToGet: elements.howToGet.value.trim(),
+    nextAction: elements.nextAction.value.trim(),
+    appliesTo: elements.appliesTo.value.trim(),
   };
 
   if (!material.name) {
@@ -699,8 +797,14 @@ function startEdit(id) {
   elements.name.value = material.name;
   elements.category.value = material.category;
   elements.status.value = material.status;
+  elements.requirementLevel.value = getRequirementLevel(material);
   elements.deadline.value = material.deadline;
-  elements.note.value = material.note;
+  elements.note.value = material.note || "";
+  elements.sourceName.value = material.sourceName || "";
+  elements.sourceUrl.value = material.sourceUrl || "";
+  elements.howToGet.value = material.howToGet || "";
+  elements.nextAction.value = material.nextAction || "";
+  elements.appliesTo.value = material.appliesTo || "";
   elements.formTitle.textContent = `编辑材料：${material.name}`;
   elements.submitButton.textContent = "保存修改";
   elements.cancelEditButton.classList.remove("hidden");
@@ -719,12 +823,15 @@ function deleteMaterial(id) {
   render();
 }
 
-function applyTemplate(templateId) {
+function applyTemplate(templateId, selectedNames = null) {
   const template = templates.find((item) => item.id === templateId);
   if (!template) return;
 
   const existingNames = new Set(materials.map((material) => normalizeText(material.name)));
-  const newItems = template.items.filter((item) => !existingNames.has(normalizeText(item.name)));
+  const selectedSet = selectedNames ? new Set(selectedNames.map(normalizeText)) : null;
+  const selectedItems = selectedSet ? template.items.filter((item) => selectedSet.has(normalizeText(item.name))) : template.items;
+  const newItems = selectedItems.filter((item) => !existingNames.has(normalizeText(item.name)));
+  const enrichedCount = enrichExistingMaterials(template, selectedItems);
 
   if (newItems.length > 0) {
     materials = [
@@ -734,17 +841,66 @@ function applyTemplate(templateId) {
         name: item.name,
         category: item.category,
         status: "未开始",
+        requirementLevel: item.requirementLevel || normalizeRequirementLevel(item.level),
         deadline: "",
         note: item.note ? `${item.note}（来自：${template.name}）` : `来自：${template.name}`,
+        sourceName: item.sourceName || template.sourceName || "",
+        sourceUrl: item.sourceUrl || template.sourceUrl || "",
+        howToGet: item.howToGet || "",
+        nextAction: item.nextAction || item.howToGet || "",
+        appliesTo: item.appliesTo || "",
       })),
     ];
 
     saveMaterials();
   }
 
-  const skippedCount = template.items.length - newItems.length;
-  showTemplateMessage(`已添加 ${newItems.length} 项，跳过 ${skippedCount} 项重复材料`);
+  const skippedCount = selectedItems.length - newItems.length;
+  showTemplateMessage(`已添加 ${newItems.length} 项，跳过 ${skippedCount} 项重复材料，补全 ${enrichedCount} 项指南`);
   render();
+}
+
+function enrichExistingMaterials(template, selectedItems) {
+  let updatedCount = 0;
+
+  materials = materials.map((material) => {
+    const templateItem = selectedItems.find((item) => normalizeText(item.name) === normalizeText(material.name));
+    if (!templateItem) return material;
+
+    const guide = {
+      requirementLevel: material.requirementLevel || templateItem.requirementLevel || normalizeRequirementLevel(templateItem.level),
+      sourceName: material.sourceName || templateItem.sourceName || template.sourceName || "",
+      sourceUrl: material.sourceUrl || templateItem.sourceUrl || template.sourceUrl || "",
+      howToGet: material.howToGet || templateItem.howToGet || "",
+      nextAction: material.nextAction || templateItem.nextAction || templateItem.howToGet || "",
+      appliesTo: material.appliesTo || templateItem.appliesTo || "",
+    };
+
+    const hasNewGuide = Object.keys(guide).some((key) => !material[key] && guide[key]);
+    if (hasNewGuide) {
+      updatedCount += 1;
+      return { ...material, ...guide };
+    }
+
+    return material;
+  });
+
+  if (updatedCount > 0) {
+    saveMaterials();
+  }
+
+  return updatedCount;
+}
+
+function getSelectedTemplateItemNames() {
+  return [...elements.templatePreview.querySelectorAll("[data-template-item]:checked")].map((checkbox) => checkbox.dataset.templateItem);
+}
+
+function updateTemplateApplyCount() {
+  const button = elements.templatePreview.querySelector("[data-action='apply-template']");
+  if (!button) return;
+
+  button.textContent = `添加选中的 ${getSelectedTemplateItemNames().length} 项`;
 }
 
 function normalizeText(value) {
@@ -759,6 +915,49 @@ function showTemplateMessage(message) {
   }, 3000);
 }
 
+function showDetails(id) {
+  const material = materials.find((item) => item.id === id);
+  if (!material) return;
+
+  const detailRows = [
+    ["状态", material.status],
+    ["重要程度", getRequirementLevel(material)],
+    ["分类", material.category],
+    ["截止日期", material.deadline || "未设置"],
+    ["下一步动作", material.nextAction || material.howToGet || "暂未填写"],
+    ["来源", material.sourceName || "暂未填写"],
+    ["如何获得", material.howToGet || "暂未填写"],
+    ["适用情况", material.appliesTo || "暂未填写"],
+    ["备注", material.note || "暂无备注"],
+  ];
+
+  const sourceButton = material.sourceUrl
+    ? `<a class="source-button" href="${escapeHtml(material.sourceUrl)}" target="_blank" rel="noopener noreferrer">查看官方入口</a>`
+    : "";
+
+  elements.detailTitle.textContent = material.name;
+  elements.detailContent.innerHTML = `
+    <div class="detail-grid">
+      ${detailRows
+        .map(
+          ([label, value]) => `
+            <p>
+              <strong>${escapeHtml(label)}</strong>
+              <span>${escapeHtml(value)}</span>
+            </p>
+          `
+        )
+        .join("")}
+    </div>
+    ${sourceButton}
+  `;
+  elements.detailModal.classList.remove("hidden");
+}
+
+function closeDetails() {
+  elements.detailModal.classList.add("hidden");
+}
+
 function escapeHtml(value) {
   return value
     .replaceAll("&", "&amp;")
@@ -771,6 +970,11 @@ function escapeHtml(value) {
 elements.form.addEventListener("submit", handleFormSubmit);
 
 elements.cancelEditButton.addEventListener("click", resetForm);
+
+elements.toggleTemplateButton.addEventListener("click", () => {
+  const isHidden = elements.templateBody.classList.toggle("hidden");
+  elements.toggleTemplateButton.textContent = isHidden ? "从模板添加" : "收起模板";
+});
 
 elements.templateCountry.addEventListener("change", (event) => {
   templateCountryFilter = event.target.value;
@@ -799,7 +1003,13 @@ elements.templatePreview.addEventListener("click", (event) => {
   const button = event.target.closest("[data-action='apply-template']");
   if (!button) return;
 
-  applyTemplate(button.dataset.templateId);
+  applyTemplate(button.dataset.templateId, getSelectedTemplateItemNames());
+});
+
+elements.templatePreview.addEventListener("change", (event) => {
+  if (!event.target.matches("[data-template-item]")) return;
+
+  updateTemplateApplyCount();
 });
 
 elements.search.addEventListener("input", (event) => {
@@ -828,8 +1038,20 @@ elements.list.addEventListener("click", (event) => {
     startEdit(button.dataset.id);
   }
 
+  if (button.dataset.action === "details") {
+    showDetails(button.dataset.id);
+  }
+
   if (button.dataset.action === "delete") {
     deleteMaterial(button.dataset.id);
+  }
+});
+
+elements.closeDetailButton.addEventListener("click", closeDetails);
+
+elements.detailModal.addEventListener("click", (event) => {
+  if (event.target === elements.detailModal) {
+    closeDetails();
   }
 });
 

@@ -23,7 +23,7 @@
           <div class="stats-grid">
             <span>已完成 <strong id="done-count">0</strong></span>
             <span>已上传 <strong id="uploaded-count">0</strong></span>
-            <span>已确认 <strong id="confirmed-count">0</strong></span>
+            <span>已确认 / 不适用 <strong id="confirmed-count">0 / 不适用 0</strong></span>
           </div>
         </div>
       </section>
@@ -49,27 +49,30 @@
       <section class="template-section" aria-label="选择模板">
         <div class="section-heading">
           <div>
-            <h2>选择模板</h2>
-            <p class="section-note">先按国家、签证类型和身份筛选，点模板查看材料，再决定是否添加。</p>
+            <h2>模板中心</h2>
+            <p class="section-note">需要补充材料时再展开，先预览并勾选，再添加到清单。</p>
           </div>
+          <button id="toggle-template-btn" class="ghost" type="button">从模板添加</button>
           <span id="template-message" class="template-message" aria-live="polite"></span>
         </div>
-        <div class="template-filters">
-          <label>
-            <span>国家 / 地区</span>
-            <select id="template-country"></select>
-          </label>
-          <label>
-            <span>类型</span>
-            <select id="template-type"></select>
-          </label>
-          <label>
-            <span>身份</span>
-            <select id="template-audience"></select>
-          </label>
+        <div id="template-body" class="template-body hidden">
+          <div class="template-filters">
+            <label>
+              <span>国家 / 地区</span>
+              <select id="template-country"></select>
+            </label>
+            <label>
+              <span>类型</span>
+              <select id="template-type"></select>
+            </label>
+            <label>
+              <span>身份</span>
+              <select id="template-audience"></select>
+            </label>
+          </div>
+          <div id="template-buttons" class="template-buttons"></div>
+          <div id="template-preview" class="template-preview"></div>
         </div>
-        <div id="template-buttons" class="template-buttons"></div>
-        <div id="template-preview" class="template-preview"></div>
       </section>
 
       <section class="form-section">
@@ -97,6 +100,15 @@
           </label>
 
           <label>
+            <span>重要程度</span>
+            <select id="material-requirement-level">
+              <option value="必需">必需</option>
+              <option value="视情况需要">视情况需要</option>
+              <option value="可选">可选</option>
+            </select>
+          </label>
+
+          <label>
             <span>截止日期</span>
             <input id="material-deadline" type="date" />
           </label>
@@ -104,6 +116,31 @@
           <label class="note-field">
             <span>备注</span>
             <textarea id="material-note" rows="3" placeholder="例如：等学校发 CAS"></textarea>
+          </label>
+
+          <label>
+            <span>来源名称</span>
+            <input id="material-source-name" type="text" placeholder="例如：GOV.UK / 学校系统" />
+          </label>
+
+          <label>
+            <span>官方入口</span>
+            <input id="material-source-url" type="url" placeholder="https://..." />
+          </label>
+
+          <label class="guide-field">
+            <span>如何获得</span>
+            <textarea id="material-how-to-get" rows="3" placeholder="例如：通过 GOV.UK 在线申请，或由学校发放"></textarea>
+          </label>
+
+          <label class="guide-field">
+            <span>下一步动作</span>
+            <textarea id="material-next-action" rows="3" placeholder="例如：预约官方认可诊所 / 等学校发 CAS"></textarea>
+          </label>
+
+          <label class="guide-field">
+            <span>适用情况 / 注意事项</span>
+            <textarea id="material-applies-to" rows="3" placeholder="例如：仅部分专业需要，提交前以官方要求为准"></textarea>
           </label>
 
           <button id="submit-btn" class="primary" type="submit">添加材料</button>
@@ -118,6 +155,16 @@
         <div id="material-list" class="material-list"></div>
       </section>
     </main>
+
+    <div id="detail-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+      <div class="modal-panel">
+        <div class="section-heading">
+          <h2 id="detail-title">材料详情</h2>
+          <button id="close-detail-btn" class="ghost" type="button">关闭</button>
+        </div>
+        <div id="detail-content"></div>
+      </div>
+    </div>
 
     <script src="./app.js"></script>
   </body>
